@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#04060c">
+    <meta name="description" content="Dez perguntas sobre phishing, senhas e boas práticas de segurança digital.">
+
+    <title>Quiz de cibersegurança — CyberShield</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../shared/cybershield-base.css">
+    <link rel="stylesheet" href="quiz.css">
+</head>
+
+<body>
+
+    <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo</a>
+
+    <div class="ambiente" aria-hidden="true"></div>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    <div class="piso" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+
+
+    <header class="topbar">
+
+        <a href="../pagina-inicial/index.html" class="marca">
+            <span class="marca-selo" aria-hidden="true">◈</span>
+            <span class="marca-nome">Cyber<span class="marca-2">Shield</span></span>
+        </a>
+
+        <nav class="topbar-nav" aria-label="Ferramentas">
+            <a href="../pagina-inicial/index.html" class="nav-item">início</a>
+            <a href="../analisador-senha/senha.html" class="nav-item">senhas</a>
+            <a href="../analisador-links/links.html" class="nav-item">links</a>
+            <a href="../detector-phishing/phishing.html" class="nav-item">mensagens</a>
+            <a href="quiz.html" class="nav-item" aria-current="page">quiz</a>
+        </nav>
+
+    </header>
+
+
+    <main class="shell" id="conteudo-principal">
+
+        <!-- VIEW:quiz -->
+
+        <header class="hero">
+
+            <div class="hero-glifo" aria-hidden="true">
+                <svg class="ico ico-hero" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.8"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg>
+            </div>
+
+            <h1 class="titulo glitch" data-texto="Onde sua defesa">
+                Onde sua defesa
+                <span class="titulo-linha-2">ainda tem brecha?</span>
+            </h1>
+
+            <p class="descricao">
+                Dez perguntas sobre phishing, senhas, 2FA, Wi-Fi público e
+                engenharia social. Cada resposta mostra na hora se está certa e
+                por quê. Nada é enviado nem salvo.
+            </p>
+
+        </header>
+
+
+        <!-- ==========================================================
+             PROGRESSO
+        =========================================================== -->
+
+        <section class="medidor hud" id="quizProgresso" aria-hidden="true" data-revelar>
+
+            <span class="medidor-valor"><span id="quizValor">0</span><sup>%</sup></span>
+
+            <div class="barra-track">
+                <div class="barra-fill" id="quizBarra"></div>
+            </div>
+
+            <span class="barra-label" id="quizBarraLabel">pergunta 1 de 10</span>
+
+        </section>
+
+
+        <!-- ==========================================================
+             PERGUNTA
+        =========================================================== -->
+
+        <section class="teste hud" id="quizArea" aria-label="Pergunta do quiz" data-revelar>
+
+            <p class="pergunta" id="quizPergunta"></p>
+
+            <div class="opcoes" id="quizOpcoes" role="group" aria-labelledby="quizPergunta"></div>
+
+            <p class="feedback" id="quizFeedback" aria-live="polite" hidden></p>
+
+            <button type="button" id="quizProximo" class="btn-analisar" hidden>Próxima pergunta</button>
+
+        </section>
+
+
+        <!-- ==========================================================
+             RESULTADO
+        =========================================================== -->
+
+        <section class="resultados" id="quizResultado" aria-live="polite" hidden>
+
+            <div class="resultado hud">
+                <span class="resultado-icone ico-ok" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.2 12.4l2.6 2.6 5-5.4"/></svg></span>
+                <div>
+                    <span class="dado-rotulo" id="rotuloAcertos">acertos</span>
+                    <p class="dado-valor" id="quizAcertos" aria-labelledby="rotuloAcertos">—</p>
+                </div>
+            </div>
+
+            <div class="resultado hud">
+                <span class="resultado-icone ico-erro" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M9.2 9.2l5.6 5.6M14.8 9.2l-5.6 5.6"/></svg></span>
+                <div>
+                    <span class="dado-rotulo" id="rotuloErros">erros</span>
+                    <p class="dado-valor" id="quizErros" aria-labelledby="rotuloErros">—</p>
+                </div>
+            </div>
+
+            <div class="resultado resultado-lista hud">
+                <span class="resultado-icone" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 20V11M12 20V4.5M19.5 20v-6"/></svg></span>
+                <div>
+                    <span class="dado-rotulo" id="rotuloAproveitamento">aproveitamento</span>
+                    <p class="dado-valor" id="quizAproveitamento" aria-labelledby="rotuloAproveitamento">—</p>
+                </div>
+            </div>
+
+        </section>
+
+
+        <section class="relatorio hud" id="quizRelatorioSecao" aria-live="polite" hidden>
+
+            <div class="relatorio-cabecalho">
+                <span class="relatorio-luzes" aria-hidden="true"><span></span><span></span><span></span></span>
+                <h2 id="quizRelatorioTitulo" tabindex="-1">resultado</h2>
+                <span class="relatorio-tag" id="quizTag">—</span>
+            </div>
+
+            <div class="relatorio-corpo">
+                <span class="prompt" aria-hidden="true">›</span>
+                <p id="quizRelatorio"></p>
+            </div>
+
+            <div class="acoes-resultado">
+                <button type="button" id="quizRefazer" class="btn-analisar">Refazer o quiz</button>
+                <a href="../pagina-inicial/index.html" class="btn-secundario btn-link">Voltar ao início</a>
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================================
+             SOBRE
+        =========================================================== -->
+
+        <section class="sobre hud" data-revelar>
+
+            <h2>Sobre o quiz</h2>
+
+            <p>
+                As dez perguntas cobrem os mesmos temas das outras ferramentas do
+                CyberShield. A explicação aparece logo depois da resposta, certa ou
+                errada — errar aqui é a parte útil.
+            </p>
+
+            <p>
+                O progresso existe só enquanto a página está aberta. Nada é enviado
+                nem salvo, e você pode refazer quantas vezes quiser.
+            </p>
+
+        </section>
+
+
+        <footer class="rodape">
+            <strong>◈ CyberShield</strong>
+            <span class="rodape-status">nenhuma resposta é enviada ou armazenada</span>
+        </footer>
+
+        <!-- /VIEW -->
+
+    </main>
+
+
+    <script src="../shared/cybershield-utils.js"></script>
+    <script src="quiz.js"></script>
+
+</body>
+
+</html>

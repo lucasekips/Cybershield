@@ -1,0 +1,240 @@
+/* ==========================================================================
+   PÁGINA INICIAL — regras exclusivas
+   Tokens, HUD, tipografia e rodapé vivem em ../shared/cybershield-base.css.
+   ========================================================================== */
+
+/* ======================
+   ABERTURA
+====================== */
+
+.abertura {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 34px;
+    align-items: center;
+    padding-top: 26px;
+}
+
+.abertura-texto .titulo {
+    font-size: clamp(2rem, 5.2vw, 3.05rem);
+    margin-bottom: 18px;
+}
+
+/* ======================
+   CONSOLE DE ABERTURA
+====================== */
+
+.console {
+    min-height: 208px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(5, 10, 20, 0.86);
+}
+
+.console-topo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-3);
+}
+
+.console-luz {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ok);
+    box-shadow: 0 0 9px var(--ok);
+    animation: pulso 2.4s ease-in-out infinite;
+}
+
+.console-saida {
+    flex: 1;
+    margin: 0;
+    padding: 16px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.85;
+    color: var(--text-2);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.console-saida .eco {
+    color: var(--cyan);
+}
+
+.console-saida .ok {
+    color: var(--ok);
+}
+
+.console-saida .zero {
+    color: var(--magenta);
+}
+
+.console-saida .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 13px;
+    vertical-align: -2px;
+    background: var(--cyan);
+    animation: cursor 1.1s steps(1) infinite;
+}
+
+/* ======================
+   MÓDULOS
+====================== */
+
+.modulos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.modulo {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: 6px 16px;
+    padding: 22px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.modulo:hover,
+.modulo:focus-visible {
+    transform: translateY(-3px);
+    background: rgba(14, 26, 46, 0.72);
+}
+
+.modulo:hover::after,
+.modulo:focus-visible::after {
+    background: linear-gradient(140deg, var(--cyan), var(--magenta) 70%);
+}
+
+.modulo-glifo {
+    grid-row: 1 / 3;
+    color: var(--cyan);
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    font-size: 21px;
+    background: var(--panel-inset);
+    border: 1px solid var(--line);
+    clip-path: var(--corte-sm);
+    transition: box-shadow 0.25s ease;
+}
+
+.modulo:hover .modulo-glifo {
+    box-shadow: inset 0 0 22px rgba(0, 229, 255, 0.22);
+}
+
+.modulo-nome {
+    display: block;
+    font-size: 1.02rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--text);
+}
+
+.modulo-desc {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--text-2);
+}
+
+.modulo-acao {
+    grid-column: 2;
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--text-3);
+    transition: color 0.2s ease, letter-spacing 0.25s ease;
+}
+
+.modulo-acao::before {
+    content: "[ ";
+    color: var(--magenta);
+}
+
+.modulo-acao::after {
+    content: " ]";
+    color: var(--magenta);
+}
+
+.modulo:hover .modulo-acao,
+.modulo:focus-visible .modulo-acao {
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+}
+
+/* ======================
+   MANIFESTO
+====================== */
+
+.manifesto {
+    padding: 26px 28px;
+    border-left: 2px solid var(--magenta);
+}
+
+.manifesto-frase {
+    font-size: clamp(1.05rem, 2.6vw, 1.35rem);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text);
+    max-width: 34ch;
+}
+
+.manifesto-apoio {
+    margin-top: 12px;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: var(--text-2);
+    max-width: 66ch;
+}
+
+.manifesto-apoio em {
+    color: var(--cyan-soft);
+    font-style: italic;
+}
+
+/* ======================
+   RESPONSIVO
+====================== */
+
+@media (max-width: 860px) {
+
+    .abertura {
+        grid-template-columns: 1fr;
+        gap: 26px;
+    }
+
+    .modulos {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+
+    .console-saida {
+        font-size: 11.5px;
+    }
+
+    .modulo {
+        padding: 18px;
+        gap: 4px 14px;
+    }
+
+    .modulo-glifo {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+}

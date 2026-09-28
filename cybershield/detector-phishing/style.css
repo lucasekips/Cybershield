@@ -1,0 +1,19 @@
+/* ==========================================================================
+   DETECTOR DE PHISHING — regras exclusivas
+   ========================================================================== */
+
+/* O painel de exemplos cresce bastante; rola dentro de si em vez de
+   empurrar o resto da página. */
+
+#msgPainel {
+    max-height: 290px;
+    overflow-y: auto;
+}
+
+/* A caixa de mensagem é o elemento central da tela: mais alta e com
+   entrelinha de leitura, já que recebe texto corrido e não um comando. */
+
+#msgCampo {
+    min-height: 190px;
+    line-height: 1.65;
+}

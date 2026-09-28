@@ -1,0 +1,26 @@
+/* ==========================================================================
+   ANALISADOR DE LINKS — regras exclusivas
+   ========================================================================== */
+
+/* O painel de exemplos pode crescer; rola dentro de si em vez de empurrar
+   o resto da página para baixo. */
+
+#linkPainel {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Exemplos são endereços: monoespaçada, para ler caractere por caractere. */
+
+#linkPainel .painel-item {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    word-break: break-all;
+}
+
+/* O domínio é o dado decisivo da tela inteira — recebe peso e cor. */
+
+#linkDominio {
+    font-size: 15px;
+    color: var(--cyan-soft);
+}

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#04060c">
+    <meta name="description" content="Avalie a força da sua senha e gere senhas seguras — tudo dentro do seu navegador.">
+
+    <title>Analisador de senhas — CyberShield</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../shared/cybershield-base.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo</a>
+
+    <div class="ambiente" aria-hidden="true"></div>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    <div class="piso" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+
+
+    <header class="topbar">
+
+        <a href="../pagina-inicial/index.html" class="marca">
+            <span class="marca-selo" aria-hidden="true">◈</span>
+            <span class="marca-nome">Cyber<span class="marca-2">Shield</span></span>
+        </a>
+
+        <nav class="topbar-nav" aria-label="Ferramentas">
+            <a href="../pagina-inicial/index.html" class="nav-item">início</a>
+            <a href="senha.html" class="nav-item" aria-current="page">senhas</a>
+            <a href="../analisador-links/links.html" class="nav-item">links</a>
+            <a href="../detector-phishing/phishing.html" class="nav-item">mensagens</a>
+            <a href="../quiz/quiz.html" class="nav-item">quiz</a>
+        </nav>
+
+    </header>
+
+
+    <main class="shell" id="conteudo-principal">
+
+        <!-- VIEW:senha -->
+
+        <header class="hero">
+
+            <div class="hero-glifo" aria-hidden="true">
+                <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="28" y="52" width="64" height="52" rx="4" stroke="currentColor" stroke-width="7"/>
+                    <path d="M42 52V38C42 28 50 20 60 20C70 20 78 28 78 38V52" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                    <circle cx="60" cy="72" r="6" fill="currentColor"/>
+                    <path d="M60 78V88" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <h1 class="titulo glitch" data-texto="Sua senha aguenta">
+                Sua senha aguenta
+                <span class="titulo-linha-2">um ataque real?</span>
+            </h1>
+
+            <p class="descricao">
+                Digite uma senha e veja a força dela mudar a cada tecla — ou gere
+                uma senha forte na hora. Nada é enviado, registrado ou armazenado:
+                a análise inteira acontece no seu navegador.
+            </p>
+
+        </header>
+
+
+        <!-- ==========================================================
+             ENTRADA
+        =========================================================== -->
+
+        <section class="teste hud" aria-label="Teste de senha" data-revelar>
+
+            <label for="senhaCampo" class="sr-only">Senha para análise</label>
+
+            <div class="input-row">
+
+                <input
+                    type="password"
+                    id="senhaCampo"
+                    name="senha"
+                    class="campo-texto"
+                    placeholder="Digite uma senha para analisar"
+                    autocomplete="new-password"
+                    autocapitalize="off"
+                    autocorrect="off"
+                    spellcheck="false"
+                    maxlength="128"
+                    aria-describedby="senhaRelatorio"
+                >
+
+                <button
+                    type="button"
+                    id="senhaMostrar"
+                    class="btn-visibilidade"
+                    aria-pressed="false"
+                    aria-label="Mostrar senha"
+                ><svg class="ico ico-olho ico-olho-ver" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="ico ico-olho ico-olho-ocultar" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l16 16"/><path d="M9.5 9.6A3 3 0 0 0 12 15a3 3 0 0 0 2.4-1.2"/><path d="M6.4 6.7C4 8.4 2.5 12 2.5 12s3.5 6.5 9.5 6.5c1.6 0 3-.4 4.2-1"/><path d="M17.8 16A12 12 0 0 0 21.5 12S18 5.5 12 5.5c-.9 0-1.7.1-2.5.4"/></svg></button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================================
+             MEDIDOR
+        =========================================================== -->
+
+        <section class="medidor hud" aria-hidden="true" data-revelar>
+
+            <span class="medidor-valor"><span id="senhaValor">0</span><sup>/100</sup></span>
+
+            <div class="barra-track">
+                <div class="barra-fill" id="senhaBarra"></div>
+            </div>
+
+            <span class="barra-label" id="senhaBarraLabel">aguardando entrada</span>
+
+        </section>
+
+
+        <!-- ==========================================================
+             RESULTADOS
+        =========================================================== -->
+
+        <section class="resultados" aria-live="polite" data-revelar>
+
+            <div class="resultado hud">
+                <span class="resultado-icone" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10.5" width="16" height="9.5" rx="2"/><path d="M7.5 10.5V7a4.5 4.5 0 0 1 9 0v3.5"/></svg></span>
+                <div>
+                    <span class="dado-rotulo" id="rotuloForca">força</span>
+                    <p class="dado-valor" id="senhaClassificacao" aria-labelledby="rotuloForca">—</p>
+                </div>
+            </div>
+
+            <div class="resultado hud">
+                <span class="resultado-icone" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 6.8V12l3.2 2.1"/></svg></span>
+                <div>
+                    <span class="dado-rotulo" id="rotuloTempo">tempo para quebrar</span>
+                    <p class="dado-valor" id="senhaTempo" aria-labelledby="rotuloTempo">—</p>
+                </div>
+            </div>
+
+            <div class="resultado resultado-lista hud">
+                <span class="resultado-icone" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 7.2l1.9 1.9 3-3"/><path d="M3.6 16.4l1.9 1.9 3-3"/><path d="M12.4 8.2h8M12.4 17.4h8"/></svg></span>
+                <div>
+                    <span class="dado-rotulo" id="rotuloCriterios">critérios avaliados</span>
+                    <ul id="senhaCriterios" aria-labelledby="rotuloCriterios">
+                        <li>Digite uma senha para começar.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================================
+             RELATÓRIO
+        =========================================================== -->
+
+        <section class="relatorio hud" aria-live="polite" data-revelar>
+
+            <div class="relatorio-cabecalho">
+                <span class="relatorio-luzes" aria-hidden="true"><span></span><span></span><span></span></span>
+                <h2>diagnóstico</h2>
+                <span class="relatorio-tag" id="senhaTag">aguardando</span>
+            </div>
+
+            <div class="relatorio-corpo">
+                <span class="prompt" aria-hidden="true">›</span>
+                <p id="senhaRelatorio">Digite uma senha acima para receber uma avaliação.</p>
+            </div>
+
+            <p class="nota-rodape">
+                O tempo estimado considera um ataque offline a ~10 bilhões de
+                tentativas por segundo e não leva em conta vazamentos conhecidos.
+            </p>
+
+        </section>
+
+
+        <!-- ==========================================================
+             GERADOR
+        =========================================================== -->
+
+        <section class="gerador hud" aria-labelledby="tituloGerador" data-revelar>
+
+            <h2 id="tituloGerador">Gerar uma senha forte</h2>
+
+            <div class="gerador-controle">
+
+                <label for="senhaComprimento">
+                    comprimento
+                    <output for="senhaComprimento" id="senhaComprimentoValor">16</output>
+                </label>
+
+                <input type="range" id="senhaComprimento" min="10" max="32" value="16" step="1">
+
+            </div>
+
+            <fieldset class="gerador-opcoes">
+
+                <legend class="sr-only">Tipos de caractere incluídos</legend>
+
+                <label><input type="checkbox" id="optMinusculas" checked> minúsculas (a–z)</label>
+                <label><input type="checkbox" id="optMaiusculas" checked> maiúsculas (A–Z)</label>
+                <label><input type="checkbox" id="optNumeros" checked> números (0–9)</label>
+                <label><input type="checkbox" id="optSimbolos" checked> símbolos (!@#$…)</label>
+
+            </fieldset>
+
+            <p class="gerador-aviso" id="senhaGeradorAviso" aria-live="polite"></p>
+
+            <button type="button" id="senhaGerar" class="btn-analisar">Gerar senha</button>
+
+            <div class="gerador-resultado">
+
+                <label for="senhaGerada" class="sr-only">Senha gerada</label>
+
+                <output class="senha-saida" id="senhaGerada" data-vazio="true">a senha gerada aparece aqui</output>
+
+                <button type="button" id="senhaCopiar" class="btn-secundario" disabled>Copiar</button>
+
+            </div>
+
+            <p class="gerador-entropia" id="senhaEntropia" aria-live="polite"></p>
+
+        </section>
+
+
+        <!-- ==========================================================
+             SOBRE
+        =========================================================== -->
+
+        <section class="sobre hud" data-revelar>
+
+            <h2>Como esta análise funciona</h2>
+
+            <p>
+                A força é estimada a partir do comprimento, da variedade de
+                caracteres, da presença de sequências ou repetições óbvias (como
+                "1234" ou "aaaa") e da comparação com uma lista de senhas
+                extremamente comuns.
+            </p>
+
+            <p>
+                O tempo para quebrar é uma referência educativa com suposições
+                conservadoras sobre o poder computacional de quem ataca — não é
+                uma garantia. Sempre que possível, use um gerenciador de senhas e
+                ative a verificação em duas etapas.
+            </p>
+
+            <p>
+                Nada digitado ou gerado aqui sai do seu navegador. O gerador usa a
+                API criptográfica nativa (<code>crypto.getRandomValues</code>), não
+                <code>Math.random</code>.
+            </p>
+
+        </section>
+
+
+        <footer class="rodape">
+            <strong>◈ CyberShield</strong>
+            <span class="rodape-status">nenhuma senha é enviada ou armazenada</span>
+        </footer>
+
+        <!-- /VIEW -->
+
+    </main>
+
+
+    <script src="../shared/cybershield-utils.js"></script>
+    <script src="senha.js"></script>
+
+</body>
+
+</html>

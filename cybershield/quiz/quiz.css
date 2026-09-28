@@ -1,0 +1,154 @@
+/* ==========================================================================
+   QUIZ — regras exclusivas
+   ========================================================================== */
+
+.pergunta {
+    font-size: 1.08rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--text);
+    max-width: 58ch;
+}
+
+/* ======================
+   OPÇÕES
+====================== */
+
+.opcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.opcao {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    align-items: center;
+    width: 100%;
+    padding: 14px 16px;
+    text-align: left;
+    background: var(--panel-inset);
+    border: 1px solid var(--line);
+    clip-path: var(--corte-sm);
+    color: var(--text);
+    font-family: var(--font-ui);
+    font-size: 14px;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: border-color 0.18s ease, background 0.18s ease, opacity 0.25s ease;
+}
+
+.opcao:hover:not(:disabled),
+.opcao:focus-visible:not(:disabled) {
+    border-color: var(--line-strong);
+    background: rgba(0, 229, 255, 0.08);
+}
+
+.opcao:disabled {
+    cursor: default;
+}
+
+.opcao-letra {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--cyan);
+    border: 1px solid var(--line);
+    background: rgba(0, 229, 255, 0.07);
+    transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.opcao:hover:not(:disabled) .opcao-letra {
+    background: rgba(0, 229, 255, 0.16);
+}
+
+.opcao-apagada {
+    opacity: 0.4;
+}
+
+.opcao-certa {
+    border-color: rgba(43, 255, 179, 0.6);
+    background: rgba(43, 255, 179, 0.1);
+    opacity: 1;
+}
+
+.opcao-certa .opcao-letra {
+    color: var(--ok);
+    border-color: rgba(43, 255, 179, 0.6);
+    background: rgba(43, 255, 179, 0.14);
+}
+
+.opcao-errada {
+    border-color: rgba(255, 59, 92, 0.6);
+    background: rgba(255, 59, 92, 0.1);
+    opacity: 1;
+}
+
+.opcao-errada .opcao-letra {
+    color: var(--danger);
+    border-color: rgba(255, 59, 92, 0.6);
+    background: rgba(255, 59, 92, 0.14);
+}
+
+/* ======================
+   FEEDBACK
+====================== */
+
+.feedback {
+    padding: 14px 16px;
+    border-left: 3px solid var(--line-strong);
+    background: var(--panel-inset);
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--text-2);
+    max-width: 68ch;
+}
+
+.feedback-certa {
+    border-left-color: var(--ok);
+}
+
+.feedback-errada {
+    border-left-color: var(--danger);
+}
+
+/* ======================
+   AÇÕES DO RESULTADO
+====================== */
+
+.acoes-resultado {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 0 20px 20px;
+}
+
+.acoes-resultado .btn-analisar {
+    flex: 1;
+    min-width: 170px;
+}
+
+.btn-link {
+    flex: 1;
+    min-width: 170px;
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+    text-align: center;
+}
+
+/* ======================
+   RESPONSIVO
+====================== */
+
+@media (max-width: 480px) {
+
+    .acoes-resultado {
+        flex-direction: column;
+    }
+}

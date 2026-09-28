@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#04060c">
+    <meta name="description" content="Analise e-mails e mensagens suspeitas em busca de sinais de phishing — no seu navegador.">
+
+    <title>Detector de phishing — CyberShield</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../shared/cybershield-base.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo</a>
+
+    <div class="ambiente" aria-hidden="true"></div>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    <div class="piso" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+
+
+    <header class="topbar">
+
+        <a href="../pagina-inicial/index.html" class="marca">
+            <span class="marca-selo" aria-hidden="true">◈</span>
+            <span class="marca-nome">Cyber<span class="marca-2">Shield</span></span>
+        </a>
+
+        <nav class="topbar-nav" aria-label="Ferramentas">
+            <a href="../pagina-inicial/index.html" class="nav-item">início</a>
+            <a href="../analisador-senha/senha.html" class="nav-item">senhas</a>
+            <a href="../analisador-links/links.html" class="nav-item">links</a>
+            <a href="phishing.html" class="nav-item" aria-current="page">mensagens</a>
+            <a href="../quiz/quiz.html" class="nav-item">quiz</a>
+        </nav>
+
+    </header>
+
+
+    <main class="shell" id="conteudo-principal">
+
+        <!-- VIEW:phishing -->
+
+        <header class="hero">
+
+            <div class="hero-glifo" aria-hidden="true">
+                <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="12" y="26" width="96" height="70" rx="6" stroke="currentColor" stroke-width="7"/>
+                    <path d="M16 32L60 68L104 32" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M78 80L96 62M96 80L78 62" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <h1 class="titulo glitch" data-texto="Essa mensagem">
+                Essa mensagem
+                <span class="titulo-linha-2">está te apressando?</span>
+            </h1>
+
+            <p class="descricao">
+                Cole o texto de um e-mail, SMS ou mensagem suspeita. A ferramenta
+                aponta os truques usados ali dentro: urgência fabricada, ameaça,
+                pedido de dado sensível, promessa grande demais.
+            </p>
+
+        </header>
+
+
+        <!-- ==========================================================
+             ENTRADA
+        =========================================================== -->
+
+        <section class="teste hud" aria-label="Teste de mensagem" data-revelar>
+
+            <label for="msgCampo" class="sr-only">Texto da mensagem para análise</label>
+
+            <textarea
+                id="msgCampo"
+                name="mensagem"
+                class="campo-texto"
+                rows="8"
+                placeholder="Cole aqui o texto do e-mail ou da mensagem…"
+                spellcheck="false"
+                maxlength="5000"
+                aria-describedby="msgContador msgRelatorio"
+            ></textarea>
+
+            <span class="contador-caracteres" id="msgContador" aria-live="polite">0 / 5000</span>
+
+            <button type="button" id="msgAnalisar" class="btn-analisar">Analisar mensagem</button>
+
+            <button
+                type="button"
+                id="msgExemplos"
+                class="btn-secundario"
+                aria-expanded="false"
+                aria-controls="msgPainel"
+            >Ver mensagens de exemplo</button>
+
+            <div class="painel-secundario" id="msgPainel" hidden>
+
+                <button type="button" class="btn-fechar-painel" data-fechar-painel data-autofoco>fechar ✕</button>
+
+                <p class="painel-categoria" id="msgCategoriaGolpes">golpes</p>
+
+                <button type="button" class="painel-item exemplo-golpe" data-exemplo="golpe1" aria-describedby="msgCategoriaGolpes">
+                    Sua conta será bloqueada em 24 horas…
+                </button>
+
+                <button type="button" class="painel-item exemplo-golpe" data-exemplo="golpe2" aria-describedby="msgCategoriaGolpes">
+                    Parabéns! Você foi selecionado no sorteio…
+                </button>
+
+                <button type="button" class="painel-item exemplo-golpe" data-exemplo="golpe3" aria-describedby="msgCategoriaGolpes">
+                    Sua encomenda está retida por pendência…
+                </button>
+
+                <p class="painel-categoria" id="msgCategoriaReais">mensagens comuns</p>
+
+                <button type="button" class="painel-item exemplo-real" data-exemplo="real1" aria-describedby="msgCategoriaReais">
+                    Recebemos seu pedido #48213…
+                </button>
+
+                <button type="button" class="painel-item exemplo-real" data-exemplo="real2" aria-describedby="msgCategoriaReais">
+                    Passando para confirmar nossa reunião…
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================================
+             MEDIDOR
+        =========================================================== -->
+
+        <section class="medidor hud" aria-hidden="true" data-revelar>
+
+            <span class="medidor-valor"><span id="msgValor">0</span><sup>/100</sup></span>
+
+            <div class="barra-track">
+                <div class="barra-fill" id="msgBarra"></div>
+            </div>
+
+            <span class="barra-label" id="msgBarraLabel">aguardando entrada</span>
+
+        </section>
+
+
+        <!-- ==========================================================
+             RESULTADOS
+        =========================================================== -->
+
+        <section class="resultados" aria-live="polite" data-revelar>
+
+            <div class="resultado hud">
+                <span class="resultado-icone" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.2" width="18" height="13.6" rx="2"/><path d="M3.8 6.8L12 13l8.2-6.2"/></svg></span>
+                <div>
+                    <span class="dado-rotulo" id="rotuloClassificacaoMsg">classificação</span>
+                    <p class="dado-valor" id="msgClassificacao" aria-labelledby="rotuloClassificacaoMsg">—</p>
+                </div>
+            </div>
+
+            <div class="resultado hud">
+                <span class="resultado-icone" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.3"/><path d="M20 20l-4.7-4.7"/></svg></span>
+                <div>
+                    <span class="dado-rotulo" id="rotuloTotal">sinais identificados</span>
+                    <p class="dado-valor" id="msgTotal" aria-labelledby="rotuloTotal">—</p>
+                </div>
+            </div>
+
+            <div class="resultado resultado-lista hud">
+                <span class="resultado-icone ico-alerta" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6l8.8 15.9H3.2z"/><path d="M12 9.8v4.4"/><path d="M12 17.1v.1"/></svg></span>
+                <div>
+                    <span class="dado-rotulo" id="rotuloIndicios">o que foi encontrado</span>
+                    <ul id="msgProblemas" aria-labelledby="rotuloIndicios">
+                        <li>Cole uma mensagem para analisar.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================================
+             RELATÓRIO
+        =========================================================== -->
+
+        <section class="relatorio hud" aria-live="polite" data-revelar>
+
+            <div class="relatorio-cabecalho">
+                <span class="relatorio-luzes" aria-hidden="true"><span></span><span></span><span></span></span>
+                <h2>diagnóstico</h2>
+                <span class="relatorio-tag" id="msgTag">aguardando</span>
+            </div>
+
+            <div class="relatorio-corpo">
+                <span class="prompt" aria-hidden="true">›</span>
+                <p id="msgRelatorio">Cole uma mensagem acima e peça a análise.</p>
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================================
+             SOBRE
+        =========================================================== -->
+
+        <section class="sobre hud" data-revelar>
+
+            <h2>O que a ferramenta procura</h2>
+
+            <p>
+                Padrões de linguagem que aparecem repetidamente em golpes: prazo
+                curto inventado, ameaça de bloqueio ou processo, pedido de senha ou
+                cartão, saudação genérica de disparo em massa, prêmio inesperado e
+                pontuação exagerada.
+            </p>
+
+            <p>
+                A análise é heurística e roda no navegador. Um golpe bem escrito
+                pode passar limpo, e uma mensagem legítima pode acionar sinais.
+                Na dúvida, procure a empresa pelo canal oficial — nunca pelo
+                contato que veio na mensagem.
+            </p>
+
+        </section>
+
+
+        <footer class="rodape">
+            <strong>◈ CyberShield</strong>
+            <span class="rodape-status">nenhuma mensagem é enviada ou armazenada</span>
+        </footer>
+
+        <!-- /VIEW -->
+
+    </main>
+
+
+    <script src="../shared/cybershield-utils.js"></script>
+    <script src="phishing.js"></script>
+
+</body>
+
+</html>

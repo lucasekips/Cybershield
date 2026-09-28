@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#04060c">
+    <meta name="description" content="Verifique o nível de risco de um link antes de clicar — análise local, no seu navegador.">
+
+    <title>Analisador de links — CyberShield</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../shared/cybershield-base.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo</a>
+
+    <div class="ambiente" aria-hidden="true"></div>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    <div class="piso" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+
+
+    <header class="topbar">
+
+        <a href="../pagina-inicial/index.html" class="marca">
+            <span class="marca-selo" aria-hidden="true">◈</span>
+            <span class="marca-nome">Cyber<span class="marca-2">Shield</span></span>
+        </a>
+
+        <nav class="topbar-nav" aria-label="Ferramentas">
+            <a href="../pagina-inicial/index.html" class="nav-item">início</a>
+            <a href="../analisador-senha/senha.html" class="nav-item">senhas</a>
+            <a href="links.html" class="nav-item" aria-current="page">links</a>
+            <a href="../detector-phishing/phishing.html" class="nav-item">mensagens</a>
+            <a href="../quiz/quiz.html" class="nav-item">quiz</a>
+        </nav>
+
+    </header>
+
+
+    <main class="shell" id="conteudo-principal">
+
+        <!-- VIEW:links -->
+
+        <header class="hero">
+
+            <div class="hero-glifo" aria-hidden="true">
+                <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M45 75L75 45" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                    <path d="M55 40L65 30C75 20 91 20 101 30C111 40 111 56 101 66L91 76" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                    <path d="M65 100L55 110C45 120 29 120 19 110C9 100 9 84 19 74L29 64" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <h1 class="titulo glitch" data-texto="Dá para clicar">
+                Dá para clicar
+                <span class="titulo-linha-2">nesse link?</span>
+            </h1>
+
+            <p class="descricao">
+                Cole o endereço antes de abrir. A ferramenta lê domínio, protocolo
+                e os padrões que golpistas costumam usar para disfarçar o destino
+                real — sem abrir o link e sem enviar nada.
+            </p>
+
+        </header>
+
+
+        <!-- ==========================================================
+             ENTRADA
+        =========================================================== -->
+
+        <section class="teste hud" aria-label="Teste de link" data-revelar>
+
+            <label for="linkCampo" class="sr-only">Link para análise</label>
+
+            <div class="input-row">
+                <input
+                    type="text"
+                    id="linkCampo"
+                    name="link"
+                    class="campo-texto"
+                    placeholder="cole um link, ex: banco-verificacao.xyz/urgente"
+                    autocomplete="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    maxlength="2048"
+                    aria-describedby="linkRelatorio"
+                >
+            </div>
+
+            <button type="button" id="linkAnalisar" class="btn-analisar">Analisar link</button>
+
+            <button
+                type="button"
+                id="linkExemplos"
+                class="btn-secundario"
+                aria-expanded="false"
+                aria-controls="linkPainel"
+            >Ver links de exemplo</button>
+
+            <div class="painel-secundario" id="linkPainel" hidden>
+
+                <button type="button" class="btn-fechar-painel" data-fechar-painel data-autofoco>fechar ✕</button>
+
+                <p class="painel-categoria" id="linkCategoriaRisco">links com sinais de golpe</p>
+
+                <button type="button" class="painel-item exemplo-golpe" data-exemplo="golpe1" aria-describedby="linkCategoriaRisco">
+                    bb-verificacao-conta-urgente.xyz/acesso
+                </button>
+
+                <button type="button" class="painel-item exemplo-golpe" data-exemplo="golpe2" aria-describedby="linkCategoriaRisco">
+                    mercadolivre.com.br.resgatar-premio.top
+                </button>
+
+                <button type="button" class="painel-item exemplo-golpe" data-exemplo="golpe3" aria-describedby="linkCategoriaRisco">
+                    http://192.168.42.19/login-cliente
+                </button>
+
+                <button type="button" class="painel-item exemplo-golpe" data-exemplo="golpe4" aria-describedby="linkCategoriaRisco">
+                    amaz0n-suporte.click/confirmar-dados
+                </button>
+
+                <p class="painel-categoria" id="linkCategoriaOk">link comum</p>
+
+                <button type="button" class="painel-item exemplo-real" data-exemplo="real1" aria-describedby="linkCategoriaOk">
+                    https://www.gov.br/pt-br
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================================
+             MEDIDOR
+        =========================================================== -->
+
+        <section class="medidor hud" aria-hidden="true" data-revelar>
+
+            <span class="medidor-valor"><span id="linkValor">0</span><sup>/100</sup></span>
+
+            <div class="barra-track">
+                <div class="barra-fill" id="linkBarra"></div>
+            </div>
+
+            <span class="barra-label" id="linkBarraLabel">aguardando entrada</span>
+
+        </section>
+
+
+        <!-- ==========================================================
+             RESULTADOS
+        =========================================================== -->
+
+        <section class="resultados" aria-live="polite" data-revelar>
+
+            <div class="resultado hud">
+                <span class="resultado-icone" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7.5 3v5.2c0 4.6-3.1 8.2-7.5 10.3-4.4-2.1-7.5-5.7-7.5-10.3V6z"/></svg></span>
+                <div>
+                    <span class="dado-rotulo" id="rotuloClassificacao">classificação</span>
+                    <p class="dado-valor" id="linkClassificacao" aria-labelledby="rotuloClassificacao">—</p>
+                </div>
+            </div>
+
+            <div class="resultado hud">
+                <span class="resultado-icone" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5a13 13 0 0 1 0 17a13 13 0 0 1 0-17"/></svg></span>
+                <div>
+                    <span class="dado-rotulo" id="rotuloDominio">domínio real</span>
+                    <p class="dado-valor" id="linkDominio" aria-labelledby="rotuloDominio">—</p>
+                </div>
+            </div>
+
+            <div class="resultado resultado-lista hud">
+                <span class="resultado-icone ico-alerta" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6l8.8 15.9H3.2z"/><path d="M12 9.8v4.4"/><path d="M12 17.1v.1"/></svg></span>
+                <div>
+                    <span class="dado-rotulo" id="rotuloProblemas">sinais encontrados</span>
+                    <ul id="linkProblemas" aria-labelledby="rotuloProblemas">
+                        <li>Cole um link para analisar.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================================
+             RELATÓRIO
+        =========================================================== -->
+
+        <section class="relatorio hud" aria-live="polite" data-revelar>
+
+            <div class="relatorio-cabecalho">
+                <span class="relatorio-luzes" aria-hidden="true"><span></span><span></span><span></span></span>
+                <h2>diagnóstico</h2>
+                <span class="relatorio-tag" id="linkTag">aguardando</span>
+            </div>
+
+            <div class="relatorio-corpo">
+                <span class="prompt" aria-hidden="true">›</span>
+                <p id="linkRelatorio">Cole um link acima para receber uma análise de risco.</p>
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================================
+             SOBRE
+        =========================================================== -->
+
+        <section class="sobre hud" data-revelar>
+
+            <h2>O que a ferramenta procura</h2>
+
+            <p>
+                Ausência de HTTPS, IP no lugar de domínio, encurtadores, extensões
+                associadas a fraude, excesso de subdomínios ou hífens, punycode,
+                imitação de marcas conhecidas (inclusive com números no lugar de
+                letras) e termos-isca típicos de engenharia social. O domínio
+                também é cruzado com blacklists públicas de phishing e golpes,
+                baixadas e mantidas localmente pelo navegador.
+            </p>
+
+            <p>
+                A análise combina heurística com consulta a blacklists públicas,
+                e roda inteiramente no navegador: ela aponta sinais e ocorrências
+                confirmadas, mas nenhuma lista é 100% completa. Um link pode
+                passar limpo aqui e ainda ser perigoso. Nunca digite senha ou
+                dado bancário sem confirmar o destino por um canal oficial.
+            </p>
+
+        </section>
+
+
+        <footer class="rodape">
+            <strong>◈ CyberShield</strong>
+            <span class="rodape-status">nenhum link é aberto, enviado ou armazenado</span>
+        </footer>
+
+        <!-- /VIEW -->
+
+    </main>
+
+
+    <script src="../shared/cybershield-utils.js"></script>
+    <script src="blacklist.js"></script>
+    <script src="links.js"></script>
+
+</body>
+
+</html>
